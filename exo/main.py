@@ -30,7 +30,6 @@ from exo.models import build_base_shard, get_repo
 from exo.viz.topology_viz import TopologyViz
 import uvloop
 import concurrent.futures
-import resource
 import psutil
 
 # TODO: figure out why this is happening
@@ -46,6 +45,7 @@ def configure_uvloop():
 
     # Increase file descriptor limits on Unix systems
     if not psutil.WINDOWS:
+      import resource
       soft, hard = resource.getrlimit(resource.RLIMIT_NOFILE)
       try: resource.setrlimit(resource.RLIMIT_NOFILE, (hard, hard))
       except ValueError:
